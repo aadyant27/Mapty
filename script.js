@@ -12,9 +12,9 @@ const inputCadence = document.querySelector(".form__input--cadence");
 const inputElevation = document.querySelector(".form__input--elevation");
 
 class Workout {
+  //Public Fields
   date = new Date();
-  //Creating id by converting the Data into a string and then taking last 10 characters.
-  id = (new Date() + "").slice(-10);
+  id = (new Date() + "").slice(-10); //Creating id by converting the Data into a string and then taking last 10 characters.
   constructor(coords, distance, duration) {
     this.coords = coords;
     this.distance = distance;
@@ -26,6 +26,11 @@ class Running extends Workout {
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
     this.cadence = cadence;
+    this.calcPace();
+  }
+  calcPace() {
+    this.pace = this.duration / this.distance;
+    return this.pace;
   }
 }
 
@@ -107,3 +112,17 @@ class App {
 }
 
 const app = new App();
+// const abc = () => {
+//   console.log(this);
+// };
+// abc();
+// console.log("******");
+// f();
+// const f = function () {
+//   console.log(this);
+// };
+cf();
+function cf() {
+  console.log(this);
+}
+// new cf();
