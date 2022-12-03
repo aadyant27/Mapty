@@ -14,11 +14,11 @@ const inputElevation = document.querySelector(".form__input--elevation");
 class Workout {
   //Public Fields
   date = new Date();
-  id = (new Date() + "").slice(-10); //Creating id by converting the Data into a string and then taking last 10 characters.
+  id = (Date.now() + "").slice(-10); //Creating id by converting the Data into a string and then taking last 10 characters.
   constructor(coords, distance, duration) {
-    this.coords = coords;
-    this.distance = distance;
-    this.duration = duration;
+    this.coords = coords; // [latitude, longitude]
+    this.distance = distance; // kilometer
+    this.duration = duration; // minutes
   }
 }
 
@@ -34,13 +34,24 @@ class Running extends Workout {
   }
 }
 
-class Running extends Running {
+class Cycling extends Workout {
   constructor(coords, distance, duration, elevationGain) {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
+    this.calcSpeed();
+  }
+  calcSpeed() {
+    this.speed = this.distance / (this.duration / 60);
+    return this.speed;
   }
 }
 
+const run1 = new Running([39, -12], 12, 6, 5.2);
+const cycle1 = new Cycling([39, -12], 12, 6, 125.2);
+console.log(cycle1);
+
+///////////////////////////////////////////////////
+////APPLICATION ARCHITECTURE
 class App {
   #map;
   #mapEvent;
@@ -112,17 +123,3 @@ class App {
 }
 
 const app = new App();
-// const abc = () => {
-//   console.log(this);
-// };
-// abc();
-// console.log("******");
-// f();
-// const f = function () {
-//   console.log(this);
-// };
-cf();
-function cf() {
-  console.log(this);
-}
-// new cf();
