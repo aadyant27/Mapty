@@ -99,11 +99,43 @@ class App {
   }
 
   _newWorkout(e) {
-    console.log(e);
     e.preventDefault();
+
+    //helper function to check if input is valid or not
+    const validInputs = (...inputs) => inputs.every((input) => isNaN(input));
+    const allPositive = (...inputs) => inputs.every((input) => input > 0);
+    //GET DATA FROM THE FORM
+    const type = inputType.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
+
+    //CREATE RUNNING/CYCLING OBJECT BASED ON INPUT
+    if (type === "running") {
+      const cadence = +inputCadence.value;
+
+      if (validInputs(duration, distance, cadence))
+        return alert("Input must be a number");
+
+      if (!allPositive(duration, distance, cadence))
+        return alert("Inputs must be a Positive Number");
+    }
+    if (type === "cycling") {
+      const elevation = +inputElevation.value;
+
+      if (validInputs(duration, distance, elevation))
+        return alert("Inputs have to a number");
+      if (!allPositive(duration, distance))
+        return alert("Inputs except Elevation-Gain must be a Positive Number");
+    }
+    //ADD NEW OBJCT TO WORKOUT ARRAY
+
+    //RENDER WORKOUT ON MAP & LIST
+
+    //HIDE FORM
     //Clearing the input fields
     inputDistance.value = inputDuration.value = inputCadence.value = "";
 
+    //RENDERING THE WORKOUT ON THE DOM IN THE FORM OF A MARKER
     const { lat, lng } = this.#mapEvent.latlng;
     console.log(lat);
     L.marker([lat, lng])
