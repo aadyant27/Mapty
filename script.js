@@ -71,9 +71,14 @@ class App {
   #mapEvent;
   #workouts = [];
   constructor() {
+    //GET POSITION
     this._getPosition();
-    form.addEventListener("submit", this._newWorkout.bind(this));
 
+    //LOCAL STORAGE
+    this._getLocalStorage();
+
+    //EVENT HANDLERS
+    form.addEventListener("submit", this._newWorkout.bind(this));
     inputType.addEventListener("change", this._toggleElevationField);
   }
 
@@ -89,10 +94,10 @@ class App {
   }
 
   _loadMap(pos) {
-    console.log(pos);
+    // console.log(pos);
     const { latitude } = pos.coords;
     const { longitude } = pos.coords;
-    console.log(`https://www.google.com/maps/@${latitude},${longitude},5z`);
+    // console.log(`https://www.google.com/maps/@${latitude},${longitude},5z`);
 
     this.#map = L.map("map").setView([latitude, longitude], 13);
 
@@ -102,6 +107,9 @@ class App {
     }).addTo(this.#map);
 
     this.#map.on("click", this._showForm.bind(this));
+    this.#workouts.forEach((workout) => {
+      this._renderWorkoutMarker(workout);
+    });
   }
 
   _showForm(mapE) {
@@ -167,7 +175,7 @@ class App {
     }
     //ADD NEW OBJCT TO WORKOUT ARRAY
     this.#workouts.push(workout);
-    console.log(this.#workouts);
+    // console.log(this.#workouts);
 
     //RENDERING THE WORKOUT ON THE DOM IN THE FORM OF A MARKER
     this._renderWorkoutMarker(workout);
@@ -177,12 +185,15 @@ class App {
 
     //HIDE FORM + CLEAR INPUT FIELDS
     this._hideForm();
+
+    //SET LOCAL STORAGE
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
     const lat = workout.coords[0];
     const lng = workout.coords[1];
-    console.log(workout.type);
+    // console.log(workout.type);
     L.marker([lat, lng])
       .addTo(this.#map)
       .bindPopup(
@@ -249,6 +260,23 @@ class App {
     }
 
     form.insertAdjacentHTML("afterend", html);
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("workouts"));
+    // console.log(JSON.parse(data));
+
+    if (!data) return;
+
+    this.#workouts = data;
+    // console.log(this.#workouts);
+    this.#workouts.forEach((workout) => {
+      this._renderWorkout(workout);
+    });
   }
 }
 const app = new App();
