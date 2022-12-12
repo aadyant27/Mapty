@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Carter+One&display=swap");
 :root {
   --color-brand--1: #ffb545;
   --color-brand--2: #00c46a;
@@ -217,4 +218,12 @@ a:visited {
 }
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
+}
+/* CUSTOM PROPERTIES */
+.primary-heading {
+  /* font-family: "Monofett", cursive; */
+  font-family: "Carter One", cursive;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 4rem;
 }
