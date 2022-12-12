@@ -219,11 +219,68 @@ a:visited {
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
 }
-/* CUSTOM PROPERTIES */
+
+/***** CUSTOM PROPERTIES *******/
+
 .primary-heading {
   /* font-family: "Monofett", cursive; */
   font-family: "Carter One", cursive;
   font-size: 3rem;
   text-align: center;
   margin-bottom: 4rem;
+}
+
+.popup {
+  border-radius: 10px;
+
+  padding: 1.5rem 2.25rem;
+  font-size: 1.5rem;
+  /* line-height: 1.8rem; */
+
+  z-index: 1000;
+  transition: all 1s;
+}
+
+.popup--close {
+  background-color: #42484d;
+  height: 8rem;
+  width: 28rem;
+
+  /* border-left: 10px solid #c084fc; */
+  border-left: 10px solid #b873fc;
+
+  position: absolute;
+  right: 1%;
+  top: 1%;
+}
+
+.popup--alert {
+  background-color: #42484d;
+  height: 9rem;
+  width: 32rem;
+
+  border-left: 10px solid #fb6077;
+  position: absolute;
+  right: 40%;
+  top: 1%;
+
+  display: none;
+}
+
+.close--popup {
+  cursor: pointer;
+  position: relative;
+  top: -115%;
+  left: 98%;
+}
+.close--alert {
+  cursor: pointer;
+  position: relative;
+  top: -98%;
+  left: 99%;
+}
+.close--icon {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: 500;
 }

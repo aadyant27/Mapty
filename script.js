@@ -126,6 +126,8 @@ class App {
       inputElevation.value =
         "";
     form.classList.add("hidden");
+
+    alertPopup.style.display = "None";
   }
 
   _toggleElevationField() {
@@ -138,7 +140,8 @@ class App {
     e.preventDefault();
 
     //helper function to check if input is valid or not
-    const validInputs = (...inputs) => inputs.every((input) => isNaN(input));
+    const validInputs = (...inputs) =>
+      inputs.every((input) => Number.isFinite(input));
     const allPositive = (...inputs) => inputs.every((input) => input > 0);
     //GET DATA FROM THE FORM
     const type = inputType.value;
@@ -153,11 +156,17 @@ class App {
     if (type === "running") {
       const cadence = +inputCadence.value;
 
-      if (validInputs(duration, distance, cadence))
-        return alert("Input must be a number");
+      if (!validInputs(duration, distance, cadence)) {
+        alertPopup.style.display = "block";
+        return;
+        // return alert("Input must be a number");
+      }
 
-      if (!allPositive(duration, distance, cadence))
-        return alert("Inputs must be a Positive Number");
+      if (!allPositive(duration, distance, cadence)) {
+        alertPopup.style.display = "block";
+        return;
+        // return alert("Inputs must be a Positive Number");
+      }
 
       //create running object(to add to the workouts array)
       workout = new Running([lat, lng], distance, duration, cadence);
@@ -165,10 +174,16 @@ class App {
     if (type === "cycling") {
       const elevation = +inputElevation.value;
 
-      if (validInputs(duration, distance, elevation))
-        return alert("Inputs have to a number");
-      if (!allPositive(duration, distance))
-        return alert("Inputs except Elevation-Gain must be a Positive Number");
+      if (!validInputs(duration, distance, elevation)) {
+        alertPopup.style.display = "block";
+        return;
+        // return alert("Inputs have to be a number");
+      }
+      if (!allPositive(duration, distance)) {
+        alertPopup.style.display = "block";
+        return;
+        // return alert("Inputs except Elevation-Gain must be a Positive Number");
+      }
 
       //create cycling object(to add to the workouts array)
       workout = new Cycling([lat, lng], distance, duration, elevation);
@@ -279,4 +294,21 @@ class App {
     });
   }
 }
+
+//DEALING WITH THE POPUP
+const closePopup = document.querySelector(".close--popup");
+const closeAlert = document.querySelector(".close--alert");
+const popup = document.querySelector(".popup--close");
+const alertPopup = document.querySelector(".popup--alert");
+closePopup.addEventListener("click", () => {
+  popup.style.display = "None";
+});
+// window.addEventListener("click", () => {
+//   alertPopup.style.display = "block";
+// });
+closeAlert.addEventListener("click", () => {
+  console.log("hi");
+  alertPopup.style.display = "None";
+});
+
 const app = new App();
